@@ -7,15 +7,31 @@ BOT_TOKEN = os.environ.get('BOT_TOKEN')
 bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
 
+# TENTUKAN PIN KAMU DI SINI (Bisa kamu ganti sesukamu)
+PIN_KEAMANAN = "1234"
+
 # Respon untuk perintah /start
 @bot.message_handler(commands=['start'])
 def send_welcome(message):
     bot.reply_to(message, "Halo! Bot kamu berhasil aktif 24 jam lewat Render.")
 
-# Respon untuk perintah /lock
+# Respon untuk perintah /lock dengan PIN
 @bot.message_handler(commands=['lock'])
 def ask_lock(message):
-    bot.reply_to(message, "Perintah kunci layar diterima! Menghubungkan ke Termux HP...")
+    # Mengambil teks setelah kata /lock (contoh: /lock 1234)
+    msg_text = message.text.split()
+    
+    if len(msg_text) < 2:
+        bot.reply_to(message, "Gagal! Format salah. Silakan ketik: /lock [PIN]\nContoh: /lock 1234")
+        return
+        
+    pin_input = msg_text[1]
+    
+    if pin_input == PIN_KEAMANAN:
+        bot.reply_to(message, "PIN Benar! Perintah kunci layar diterima. Menghubungkan ke Termux HP...")
+        # Di sini nanti kode untuk mengirim sinyal kunci ke Termux HP kamu
+    else:
+        bot.reply_to(message, "PIN Salah! Akses ditolak.")
 
 # Respon untuk perintah /foto
 @bot.message_handler(commands=['foto'])

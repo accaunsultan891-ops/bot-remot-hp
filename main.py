@@ -8,7 +8,7 @@ bot = telebot.TeleBot(BOT_TOKEN)
 app = Flask(__name__)
 
 # TENTUKAN PIN KAMU DI SINI (Bisa kamu ganti sesukamu)
-PIN_KEAMANAN = "1234"
+PIN_KEAMANAN = "86227"
 
 # Respon untuk perintah /start
 @bot.message_handler(commands=['start'])
